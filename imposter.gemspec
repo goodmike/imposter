@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{imposter}
-  s.version = "0.1.8"
+  s.version = "0.1.8.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Robert Hall"]
-  s.date = %q{2009-12-24}
-  s.description = %q{Add generator and rake tasks via YAML based imposters for schema level data faking}
-  s.email = %q{robert.hall@itatc.com}
+  s.authors = ["Robert Hall", "Michael Harrison"]
+  s.date = %q{2010-07-29}
+  s.description = %q{Patch CSV usage to be Ruby 1.9.x compatible}
+  s.email = %q{mh@michaelharrison.ws}
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
@@ -31,7 +31,6 @@ Gem::Specification.new do |s|
      "lib/imposter/animal.rb",
      "lib/imposter/csz.db",
      "lib/imposter/csz.rb",
-     "lib/imposter/imposter.rb",
      "lib/imposter/mineral.rb",
      "lib/imposter/noun.rb",
      "lib/imposter/phone.rb",

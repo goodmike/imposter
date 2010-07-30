@@ -1,10 +1,9 @@
 require 'rubygems'
 require 'sqlite3'
-require 'pathname'
 require 'active_support'
 
-db_file = Pathname.new(__FILE__).dirname  + "//"
-$csz_db =SQLite3::Database.new(db_file + "csz.db")
+$db_file = File.join(File.dirname(__FILE__), "csz.db")
+$csz_db =SQLite3::Database.new($db_file)
 $csz_db.results_as_hash = true
 $total_rows = $csz_db.execute2("select count(*) from us")
 
