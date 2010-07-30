@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'faker'
 require 'pathname'
-require 'date'
+# require 'date'
 require 'active_support'
 
 require 'imposter/noun'

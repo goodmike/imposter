@@ -1,3 +1,5 @@
+require 'generators/imposter'
+
 module Imposter
   module Generators
     class InstallGenerator < ::Rails::Generator::Base

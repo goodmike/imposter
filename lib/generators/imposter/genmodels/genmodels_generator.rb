@@ -3,6 +3,9 @@ require 'activerecord'
 require 'pathname'
 require 'activesupport'
 require 'ftools'
+
+require 'generators/imposter'
+
 module Imposter
   module Generators
     class GenModelsGenerator < ::Rails::Generator::Base
