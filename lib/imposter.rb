@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'faker'
-require 'fastercsv'
 require 'pathname'
 require 'date'
 require 'active_support'
@@ -12,13 +11,23 @@ require 'imposter/vegtable'
 require 'imposter/mineral'
 require 'imposter/csz'
 
+require "csv"
+if CSV.const_defined? :Reader
+  # Ruby 1.8 compatible
+  require 'fastercsv'
+  Object.send(:remove_const, :CSV)
+  CSV = FasterCSV
+else
+  # CSV is now FasterCSV in ruby 1.9
+end
+
 module Imposter
 	def self.gencsv(filename,cnt,fields,values)
 		puts "    #{filename.sub(/.csv/,'')}..."
 		vl = values	
 		l = Array.new
 		m = Array.new(cnt,0)
-		FasterCSV.open(filename,"w") do |csv|
+		CSV.open(filename,"w") do |csv|
 			csv << fields
 			begin
 			(1..cnt).each do |i|
@@ -46,7 +55,7 @@ module Imposter
 		if not fixtures_dir.empty? then
 			fixtures_dir.each do |fixture_csv|
 				fn = Pathname.new(fixture_csv).basename.to_s.chomp(File.extname(fixture_csv))
-				eval("@" + fn + "= FasterCSV.open(fixture_csv,'r').to_a  rescue nil") 
+				eval("@" + fn + "= CSV.open(fixture_csv,'r').to_a  rescue nil") 
 			end	
 		end
 	end
