@@ -2,6 +2,8 @@
 
 Real fake data. Allows creation of an entire schema of fake data that honors associations. 
 
+Forked for urlsplease.com to adapt to Ruby 1.9.x (CSV library)
+
 == Usage
 * script/generate imposter => /test/imposter/[timestamp]_[model].yaml #YAML DSLs for the fake data generation
 # YAMLs are executed in series order much like migrations
