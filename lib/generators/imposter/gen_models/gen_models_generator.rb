@@ -1,14 +1,14 @@
 require 'rubygems'
-require 'activerecord'
+# require 'activerecord'
 require 'pathname'
-require 'activesupport'
-require 'ftools'
+# require 'activesupport'
+require 'fileutils'
 
 require 'generators/imposter'
 
 module Imposter
   module Generators
-    class GenModelsGenerator < ::Rails::Generator::Base
+    class GenModelsGenerator < ::Rails::Generators::Base
 	
 	    extend TemplatePath 
 
@@ -18,7 +18,7 @@ module Imposter
       # Public models automatically executed
     	def genmodels
     		#create_rake_file
-    		models_dir = Dir.glob("app/models/*.rb")
+    		models_dir = Dir.glob(Rails.root.join('app', 'models').to_s + "/*.rb")
     		models_dir.each do |model_dir|
     			genmodel(model_dir)
     		end	
@@ -30,9 +30,10 @@ module Imposter
     		mn = Pathname.new(model_name).basename.to_s.chomp(File.extname(model_name))
     		require model_name
 
-    		yaml_file = "test/imposter/" + "%03d" % eval(mn.camelcase).reflections.count + "-" + mn  + ".yml"
-    		if (not File.exists? yaml_file) || options[:collision] == :force then
-    			puts "                 " + mn	
+    		yaml_file = Rails.root.join('test', 'imposter').to_s + "/%03d" % eval(mn.camelcase).reflections.count + "-" + mn  + ".yml"
+    		if (not File.exists? yaml_file) || options[:collision] == :force
+    		  puts " ** YAML file is #{yaml_file}"
+    			puts " ** #{mn}"
     			mh = Hash.new
     			ma = Hash.new
     			mf = Hash.new
@@ -75,11 +76,11 @@ module Imposter
     			end
     			mf.merge!(mn => {"fields" => ma})
     			mf[mn].merge!({"quantity" => 10})
-    			File.open("test/imposter/" + "%03d" % eval(mn.camelcase).reflections.count + "-" + mn  + ".yml","w") do |out|
+    			File.open(yaml_file,"w") do |out|
     				YAML.dump(mf,out)  
     			end
     		else
-    			puts "                 " + mn + " --skipped"	
+    			puts " ** " + mn + " --skipped"	
     		end
     	end
 

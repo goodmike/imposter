@@ -60,6 +60,8 @@ module Imposter
 		end
 	end
 
+# Dir.glob(Rails.root.join('app', 'models').to_s + "/*.rb")
+
 	def self.parseyaml(yamlfilename)
 		imp_yaml = YAML.load(File.read(yamlfilename))
 		#mn = Pathname.new(yamlfilename).basename.to_s.chomp(File.extname(yamlfilename))
@@ -72,9 +74,9 @@ module Imposter
 	end
 
 	def self.genimposters
-		puts "File: " + __FILE__
-		models_dir = Dir.glob("test/imposter/*.yml")
-		#puts models_dir
+    # models_dir = Dir.glob("test/imposter/*.yml")
+		models_dir = Dir.glob(Rails.root.join('test', 'imposter').to_s + "/*.yml")
+		puts " ** models_dir: #{models_dir}"
 		models_dir.each do |imposter_yaml|
 			getfixtures #reloading each time to get model level data		
 			parseyaml(imposter_yaml)

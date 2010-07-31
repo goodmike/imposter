@@ -2,7 +2,7 @@ require 'generators/imposter'
 
 module Imposter
   module Generators
-    class InstallGenerator < ::Rails::Generator::Base
+    class InstallGenerator < ::Rails::Generators::Base
 	
 	    extend TemplatePath 
 	        	

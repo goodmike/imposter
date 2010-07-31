@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{imposter}
-  s.version = "0.1.8.1"
+  s.version = "0.2.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Robert Hall", "Michael Harrison"]
-  s.date = %q{2010-07-29}
-  s.description = %q{Patch CSV usage to be Ruby 1.9.x compatible}
+  s.date = %q{2010-07-30}
+  s.description = %q{Make generators Rails 3 compatible}
   s.email = %q{mh@michaelharrison.ws}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -27,6 +27,10 @@ Gem::Specification.new do |s|
      "generators/templates/databases.rake",
      "id_rsa.pub",
      "imposter.gemspec",
+     "lib/generators/imposter/genmodels/genmodels_generator.rb",
+     "lib/generators/imposter/install/install_generator.rb",
+     "lib/generators/imposter/install/templates/databases.rake",
+     "lib/generators/imposter.rb",
      "lib/imposter.rb",
      "lib/imposter/animal.rb",
      "lib/imposter/csz.db",
