@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
      "generators/templates/databases.rake",
      "id_rsa.pub",
      "imposter.gemspec",
-     "lib/generators/imposter/genmodels/genmodels_generator.rb",
+     "lib/generators/imposter/gen_models/gen_models_generator.rb",
      "lib/generators/imposter/install/install_generator.rb",
      "lib/generators/imposter/install/templates/databases.rake",
      "lib/generators/imposter.rb",

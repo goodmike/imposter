@@ -45,15 +45,19 @@ module Imposter
     				else
     					case mod.type.to_s.downcase
     						when 'string'
-    							case (1 + rand(3))
-    								when 1					
-    									vl = 'Imposter::Noun.multiple'
-    								when 2
-    									vl = 'Imposter::Animal.one'
-    								when 3 
-    									vl = 'Imposter::Vegtable.multiple'
-    								when 4 
-    									vl = 'Imposter::Mineral.one'
+    						  if mod.name =~ /phone/
+    						    v1 = 'Imposter::Phone.number("###-###-####")'
+  						    else
+      							case (1 + rand(3))
+      								when 1					
+      									vl = 'Imposter::Noun.multiple'
+      								when 2
+      									vl = 'Imposter::Animal.one'
+      								when 3 
+      									vl = 'Imposter::Vegtable.multiple'
+      								when 4 
+      									vl = 'Imposter::Mineral.one'
+      							end
     							end
     						when 'text' then 
     							vl = 'Faker::Lorem.sentence(3)'
