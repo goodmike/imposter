@@ -1,15 +1,15 @@
 require 'faker'
 require 'pathname'
-# require 'date'
 require 'active_support'
 
 require 'imposter/noun'
 require 'imposter/verb'
 require 'imposter/animal'
-require 'imposter/vegtable'
+require 'imposter/vegetable'
 require 'imposter/mineral'
 require 'imposter/csz'
 require 'imposter/phone'
+
 
 require "csv"
 if CSV.const_defined? :Reader
@@ -87,6 +87,10 @@ module Imposter
         length = [0, 75 - text.length].max
         write "== %s %s" % [text, "=" * length]
       end
+
+  def self.urlify
+    ('http://www.' + Faker::Internet.domain_name).to_s.downcase
+  end
 
 	def self.numerify(number_string)
 		number_string.gsub(/#/) { rand(10).to_s }

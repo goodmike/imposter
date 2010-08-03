@@ -1,7 +1,4 @@
-require 'rubygems'
-# require 'activerecord'
 require 'pathname'
-# require 'activesupport'
 require 'fileutils'
 
 require 'generators/imposter'
@@ -47,6 +44,8 @@ module Imposter
     						when 'string'
     						  if mod.name =~ /phone/
     						    vl = 'Imposter::Phone.number("###-###-####")'
+    						  elsif mod.name =~ /url/
+    						    vl = 'Imposter.urlify()'
   						    else
       							case (1 + rand(3))
       								when 1					
@@ -54,7 +53,7 @@ module Imposter
       								when 2
       									vl = 'Imposter::Animal.one'
       								when 3 
-      									vl = 'Imposter::Vegtable.multiple'
+      									vl = 'Imposter::Vegetable.multiple'
       								when 4 
       									vl = 'Imposter::Mineral.one'
       							end

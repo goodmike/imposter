@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'rake'
 
 begin
@@ -6,20 +5,19 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "imposter"
     gem.summary = "Real fake data"
-    gem.description = "Create rails based schema level fake data."
+    gem.description = "Create rails based schema level fake data; make Rails3-compatible"
     gem.email = "robert.hall@itatc.com"
     gem.homepage = "http://imposter.itatc.com"
-    gem.authors = ["Robert Hall"]
+    gem.authors = ["Robert Hall", "Michael Harrison"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     gem.add_dependency "sqlite3-ruby", ">= 1.2.5"
     gem.add_dependency "faker", ">= 0"
     gem.add_dependency "fastercsv", ">= 0"
-    gem.files.include %w(lib/imposter/*.rb lib/imposter/*.db generators/**/*.rb generators/templates/*.rake)
+    gem.files.include %w(lib/generators/**/*.rb lib/imposter/*.rb lib/imposter/*.db generators/**/*.rb generators/templates/*.rake)
     gem.summary = %Q{Real fake data}
     gem.description = %Q{Add generator and rake tasks via YAML based imposters for schema level data faking}
     gem.email = "robert.hall@itatc.com"
     gem.homepage = "http://github.com/golsombe/imposter"
-    gem.authors = ["Robert Hall"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end

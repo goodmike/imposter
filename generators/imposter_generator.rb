@@ -43,7 +43,7 @@ class ImposterGenerator < Rails::Generator::Base
 								when 2
 									vl = 'Imposter::Animal.one'
 								when 3 
-									vl = 'Imposter::Vegtable.multiple'
+									vl = 'Imposter::Vegetable.multiple'
 								when 4 
 									vl = 'Imposter::Mineral.one'
 							end
