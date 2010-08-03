@@ -46,7 +46,7 @@ module Imposter
     					case mod.type.to_s.downcase
     						when 'string'
     						  if mod.name =~ /phone/
-    						    v1 = 'Imposter::Phone.number("###-###-####")'
+    						    vl = 'Imposter::Phone.number("###-###-####")'
   						    else
       							case (1 + rand(3))
       								when 1					
