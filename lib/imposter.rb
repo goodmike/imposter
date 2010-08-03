@@ -23,7 +23,6 @@ end
 
 module Imposter
 	def self.gencsv(filename,cnt,fields,values)
-		puts "    #{filename.sub(/.csv/,'')}..."
 		vl = values	
 		l = Array.new
 		m = Array.new(cnt,0)
@@ -60,11 +59,8 @@ module Imposter
 		end
 	end
 
-# Dir.glob(Rails.root.join('app', 'models').to_s + "/*.rb")
-
 	def self.parseyaml(yamlfilename)
 		imp_yaml = YAML.load(File.read(yamlfilename))
-		#mn = Pathname.new(yamlfilename).basename.to_s.chomp(File.extname(yamlfilename))
 		mn = imp_yaml.first[0]
 		imp_values = imp_yaml[mn]["fields"].values
 		imp_fields = imp_yaml[mn]["fields"].keys
@@ -75,18 +71,17 @@ module Imposter
 
 	def self.genimposters
 		models_dir = Dir.glob(Rails.root.join('test', 'imposter').to_s + "/*.yml")
-		puts " ** models_dir: #{models_dir}"
 		models_dir.each do |imposter_yaml|
 			getfixtures #reloading each time to get model level data		
 			parseyaml(imposter_yaml)
 		end	
 	end
 
-      def announce(message)
-        text = "#{@version} #{name}: #{message}"
-        length = [0, 75 - text.length].max
-        write "== %s %s" % [text, "=" * length]
-      end
+  def announce(message)
+    text = "#{@version} #{name}: #{message}"
+    length = [0, 75 - text.length].max
+    write "== %s %s" % [text, "=" * length]
+  end
 
   def self.urlify
     ('http://www.' + Faker::Internet.domain_name).to_s.downcase

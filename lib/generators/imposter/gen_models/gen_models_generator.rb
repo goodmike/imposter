@@ -30,7 +30,6 @@ module Imposter
     		yaml_file = Rails.root.join('test', 'imposter').to_s + "/%03d" % eval(mn.camelcase).reflections.count + "-" + mn  + ".yml"
     		if (not File.exists? yaml_file) || options[:collision] == :force
     		  puts " ** YAML file is #{yaml_file}"
-    			puts " ** #{mn}"
     			mh = Hash.new
     			ma = Hash.new
     			mf = Hash.new
@@ -69,7 +68,7 @@ module Imposter
     						when 'decimal' then
     							vl = 'rand(50).to_s + "." + (1000+rand(2000)).to_s'
     						else
-    							puts "=-------=============> " + mod.type.to_s.downcase
+    							puts " ** unable to imposter " + mod.type.to_s.downcase
     					end
     					if not mod.name.include? "_at" and :include_special	
     						mh = {mod.name => vl}
