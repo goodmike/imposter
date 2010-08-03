@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'faker'
 require 'pathname'
 # require 'date'
@@ -10,6 +9,7 @@ require 'imposter/animal'
 require 'imposter/vegtable'
 require 'imposter/mineral'
 require 'imposter/csz'
+require 'imposter/phone'
 
 require "csv"
 if CSV.const_defined? :Reader
@@ -74,7 +74,6 @@ module Imposter
 	end
 
 	def self.genimposters
-    # models_dir = Dir.glob("test/imposter/*.yml")
 		models_dir = Dir.glob(Rails.root.join('test', 'imposter').to_s + "/*.yml")
 		puts " ** models_dir: #{models_dir}"
 		models_dir.each do |imposter_yaml|
