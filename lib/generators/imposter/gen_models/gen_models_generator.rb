@@ -27,6 +27,7 @@ module Imposter
       def genmodel(model_name)
     		mn = Pathname.new(model_name).basename.to_s.chomp(File.extname(model_name))
     		require model_name
+    		return false unless eval(mn.camelcase).is_a? Class
 
     		yaml_file = Rails.root.join('test', 'imposter').to_s + "/%03d" % eval(mn.camelcase).reflections.count + "-" + mn  + ".yml"
     		if (not File.exists? yaml_file) || options[:collision] == :force
