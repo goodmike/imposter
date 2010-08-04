@@ -67,6 +67,11 @@ module Imposter
 		imp_qty = imp_yaml[mn]["quantity"]
 		rl = gencsv("test/fixtures/" + mn.pluralize + ".csv",imp_qty,imp_fields, imp_values) 
 		eval("@" + mn.pluralize + "= rl")
+		yml_fixture_filename = "test/fixtures/#{mn.pluralize}.yml"
+		if File.exists?(yml_fixture_filename)
+		  puts " ** Deleting YAML fixture file #{yml_fixture_filename}"
+		  File.delete(yml_fixture_filename)
+	  end 
 	end
 
 	def self.genimposters
