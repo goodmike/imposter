@@ -3,7 +3,6 @@ require 'helper'
 class TestImposter < Test::Unit::TestCase
   
   should "produce a legal URL on request" do
-#   ('http://www.'.to_a + Faker::Internet.domain_name.to_a + '.com'.to_a).to_s.downcase
     assert_match(%r{http://.+\.\w+}, Imposter.urlify())
   end
   
@@ -49,6 +48,8 @@ class TestImposter < Test::Unit::TestCase
     assert_equal "String", Imposter::Verb.multiple(4).class.name
   end
   
-  
+  should "create simulated email addresses" do
+    assert_match(%r{\S+@\S+\.\S+}, Imposter.email_address())
+  end
   
 end

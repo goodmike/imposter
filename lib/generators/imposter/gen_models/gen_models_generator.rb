@@ -46,6 +46,8 @@ module Imposter
     						    vl = 'Imposter::Phone.number("###-###-####")'
     						  elsif mod.name =~ /url/
     						    vl = 'Imposter.urlify()'
+    						  elsif mod.name =~ /email/
+    						    vl = 'Imposter.email_address()'
   						    else
       							case (1 + rand(3))
       								when 1					

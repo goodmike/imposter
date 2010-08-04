@@ -91,6 +91,10 @@ module Imposter
   def self.urlify
     ('http://www.' + Faker::Internet.domain_name).to_s.downcase
   end
+  
+  def self.email_address
+    Faker::Internet.email()
+  end
 
 	def self.numerify(number_string)
 		number_string.gsub(/#/) { rand(10).to_s }
