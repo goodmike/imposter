@@ -14,8 +14,9 @@ module Imposter
 
       # Public models automatically executed
     	def genmodels
-    		#create_rake_file
     		models_dir = Dir.glob(Rails.root.join('app', 'models').to_s + "/*.rb")
+    		empty_directory 'test/imposter' # in case it doesn't exist yet
+
     		models_dir.each do |model_dir|
     			genmodel(model_dir)
     		end	
