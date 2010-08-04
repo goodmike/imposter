@@ -6,15 +6,18 @@ module Imposter
 	
 	    extend TemplatePath 
 	    
-	    def create_test_imposter_directory
+	    def create_test_imposter_directories
 	      empty_directory 'test/imposter'
+	      empty_directory 'test/imposter/config'
+	      
       end
 	    
 	    def copy_rake_file
-    		puts "Creating lib/tasks/databases.rake"
     		copy_file "databases.rake", "lib/tasks/databases.rake"
     	end
     	
+    	def copy_rake_file
+    	  copy_file "models.yml", "test/imposter/config/models.yml"
   	end
 	end
 end

@@ -16,6 +16,7 @@ module Imposter
     	def genmodels
     		models_dir = Dir.glob(Rails.root.join('app', 'models').to_s + "/*.rb")
     		empty_directory 'test/imposter' # in case it doesn't exist yet
+        read_config_file
 
     		models_dir.each do |model_dir|
     			genmodel(model_dir)
@@ -23,6 +24,27 @@ module Imposter
     	end
 
       protected
+      
+      def read_config_file
+        @models_config = YAML.load(
+          File.open(
+            Rails.root.join('test', 'imposter', 'config', 'models.yml')))
+        @models_config["default_quantity"] ||= 10
+      end
+      
+      def quantity_for(model_name)
+        model_name = model_name.camelcase
+        if @models_config["quantities"] && @models_config["quantities"][model_name]
+          @models_config["quantities"][model_name]
+        else
+          @models_config["default_quantity"]
+        end
+      end
+      
+      def foreign_key_id(fkey_id)
+        model_name = fkey_id.sub("_id","")
+        "(rand(#{quantity_for(model_name)}) + 1).to_s"
+      end
       
       def genmodel(model_name)
     		mn = Pathname.new(model_name).basename.to_s.chomp(File.extname(model_name))
@@ -37,8 +59,7 @@ module Imposter
     			mf = Hash.new
     			eval(mn.camelcase).columns.each do |mod|
     				if mod.name.include? "_id" then
-    					vl = "@" + mod.name.sub("_id","").pluralize + "[rand(@" + mod.name.sub('_id','').pluralize + ".length)][1]"
-    					mh = {mod.name => vl}
+    					mh = { mod.name => foreign_key_id(mod.name) }
     					ma.merge!(mh)
     				else
     					case mod.type.to_s.downcase
@@ -81,7 +102,8 @@ module Imposter
     				end
     			end
     			mf.merge!(mn => {"fields" => ma})
-    			mf[mn].merge!({"quantity" => 10})
+    			puts " !! quantity_for(#{mn}): #{quantity_for(mn)}"
+    			mf[mn].merge!({"quantity" => quantity_for(mn)})
     			File.open(yaml_file,"w") do |out|
     				YAML.dump(mf,out)  
     			end

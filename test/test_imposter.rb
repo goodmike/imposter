@@ -2,6 +2,20 @@ require 'helper'
 
 class TestImposter < Test::Unit::TestCase
   
+  context "gen_models generator" do
+    
+    context "setup"
+    
+      # setup do
+      #   @user = User.find(:first)
+      # end
+      
+      should "read a YAML config file and set instance variables accordingly"
+      
+    end
+  end
+  
+  
   should "produce a legal URL on request" do
     assert_match(%r{http://.+\.\w+}, Imposter.urlify())
   end

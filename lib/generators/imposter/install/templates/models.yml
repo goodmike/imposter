@@ -1,0 +1,30 @@
+--- 
+default_quantity: 10
+choices: 
+distribution: normal
+skip: 
+quantities: 
+  
+# Example for blog with User, Post, Comment, Tag, and Feed, models:
+# Tag has a taggable_id and taggable_type for polymorphic association with
+#   User and Post. 
+# Distribution will be logarithmic: lower foreign key ids will be used 
+#   more frequently.
+# Feed models will not be impostered.
+# More than 100 Post Comment and Tag models will be impostered, and the
+#   foreign keys that refer to these models will span the range from 1
+#   to the upper limit.
+# 
+# ---
+# default_quantity: 100
+# choices: 
+#   taggable_type: 
+#   - User
+#   - Post
+# distribution: log
+# skip: 
+#   - Feed
+# quantities: 
+#   Post: 1000
+#   Comment: 2000
+#   Tag: 10000
