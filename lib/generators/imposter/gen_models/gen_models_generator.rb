@@ -46,6 +46,14 @@ module Imposter
         "(rand(#{quantity_for(model_name)}) + 1).to_s"
       end
       
+      def limited_choices_for(col_name)
+        if @models_config["choices"] && @models_config["choices"][col_name]
+          "#{@models_config["choices"][col_name]}.rand"
+        else
+          nil
+        end
+      end
+      
       def genmodel(model_name)
     		mn = Pathname.new(model_name).basename.to_s.chomp(File.extname(model_name))
     		require model_name
@@ -64,22 +72,24 @@ module Imposter
     				else
     					case mod.type.to_s.downcase
     						when 'string'
-    						  if mod.name =~ /phone/
-    						    vl = 'Imposter::Phone.number("###-###-####")'
-    						  elsif mod.name =~ /url/
-    						    vl = 'Imposter.urlify()'
-    						  elsif mod.name =~ /email/
-    						    vl = 'Imposter.email_address()'
-  						    else
-      							case (1 + rand(3))
-      								when 1					
-      									vl = 'Imposter::Noun.multiple'
-      								when 2
-      									vl = 'Imposter::Animal.one'
-      								when 3 
-      									vl = 'Imposter::Vegetable.multiple'
-      								when 4 
-      									vl = 'Imposter::Mineral.one'
+    						  unless vl = limited_choices_for(mod.name)
+      						  if mod.name =~ /phone/
+      						    vl = 'Imposter::Phone.number("###-###-####")'
+      						  elsif mod.name =~ /url/
+      						    vl = 'Imposter.urlify()'
+      						  elsif mod.name =~ /email/
+      						    vl = 'Imposter.email_address()'
+    						    else
+        							case (1 + rand(3))
+        								when 1					
+        									vl = 'Imposter::Noun.multiple'
+        								when 2
+        									vl = 'Imposter::Animal.one'
+        								when 3 
+        									vl = 'Imposter::Vegetable.multiple'
+        								when 4 
+        									vl = 'Imposter::Mineral.one'
+        							end
       							end
     							end
     						when 'text' then 
