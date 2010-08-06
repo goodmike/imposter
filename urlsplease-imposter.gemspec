@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{imposter}
+  s.name = %q{urlsplease-imposter}
   s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Robert Hall", "Michael Harrison"]
   s.date = %q{2010-08-06}
-  s.description = %q{Add generator and rake tasks via YAML based imposters for schema level data faking}
-  s.email = %q{robert.hall@itatc.com}
+  s.description = %q{Temporary fork of Robert Hall's imposter gem with Ruby 1.9 and Rails 3 support. Provides generators and rake tasks via YAML based imposters for schema level data faking}
+  s.email = %q{mh@michaelharrison.ws}
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
@@ -26,7 +26,6 @@ Gem::Specification.new do |s|
      "generators/imposter_generator.rb",
      "generators/templates/databases.rake",
      "id_rsa.pub",
-     "imposter.gemspec",
      "lib/generators/imposter.rb",
      "lib/generators/imposter/gen_models/gen_models_generator.rb",
      "lib/generators/imposter/install/install_generator.rb",
@@ -43,13 +42,14 @@ Gem::Specification.new do |s|
      "lib/imposter/verb.rb",
      "lib/imposter/version.rb",
      "test/helper.rb",
-     "test/test_imposter.rb"
+     "test/test_imposter.rb",
+     "urlsplease-imposter.gemspec"
   ]
-  s.homepage = %q{http://github.com/golsombe/imposter}
+  s.homepage = %q{http://github.com/urlsplease/imposter}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Real fake data}
+  s.summary = %q{(Ruby 1.9 and Rails 3 ready) Real fake data}
   s.test_files = [
     "test/helper.rb",
      "test/test_imposter.rb"
