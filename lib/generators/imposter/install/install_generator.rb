@@ -18,6 +18,8 @@ module Imposter
     	
     	def copy_rake_file
     	  copy_file "models.yml", "test/imposter/config/models.yml"
+  	  end
+  	  
   	end
 	end
 end
