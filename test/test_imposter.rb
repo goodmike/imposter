@@ -4,7 +4,7 @@ class TestImposter < Test::Unit::TestCase
   
   context "gen_models generator" do
     
-    context "setup"
+    context "setup" do
     
       # setup do
       #   @user = User.find(:first)
