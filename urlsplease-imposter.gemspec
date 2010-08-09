@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{urlsplease-imposter}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Robert Hall", "Michael Harrison"]
-  s.date = %q{2010-08-06}
+  s.date = %q{2010-08-09}
   s.description = %q{Temporary fork of Robert Hall's imposter gem with Ruby 1.9 and Rails 3 support. Provides generators and rake tasks via YAML based imposters for schema level data faking}
   s.email = %q{mh@michaelharrison.ws}
   s.extra_rdoc_files = [
