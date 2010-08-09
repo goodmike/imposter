@@ -34,7 +34,8 @@ module Imposter
 					begin 
 						l << eval(v)
 					rescue
-						puts "Error evaluating " + v.to_s + " in " + filename
+						puts "Imposter.gencsv: Error evaluating #{v.to_s} in #{filename}"
+						puts $!.inspect
 					end
 				end
 				m[i,0] = l

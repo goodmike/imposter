@@ -8,7 +8,7 @@ module Imposter
       Nouns.rand
     end
 
-    def self.multiple(word_count = 2)
+    def self.multiple(word_count = 3)
       Nouns.shuffle[0, word_count].join(" ").capitalize
     end
   end

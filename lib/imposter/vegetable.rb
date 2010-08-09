@@ -7,7 +7,7 @@ module Imposter
       Vegetables.rand
     end
 
-    def self.multiple(word_count = 2)
+    def self.multiple(word_count = 3)
       Vegetables.shuffle[0, word_count].join(" ").capitalize
     end
 

@@ -41,6 +41,10 @@ module Imposter
         end
       end
       
+    	def unique?(col_name)
+    	  @models_config["unique"] && @models_config["unique"].include?(col_name)
+  	  end
+      
       def foreign_key_id(fkey_id)
         model_name = fkey_id.sub("_id","")
         "(rand(#{quantity_for(model_name)}) + 1).to_s"
@@ -73,23 +77,16 @@ module Imposter
     					case mod.type.to_s.downcase
     						when 'string'
     						  unless vl = limited_choices_for(mod.name)
-      						  if mod.name =~ /phone/
+    						    if unique?(mod.name)
+    						      vl = '"' + mod.name + '" + Imposter::Mineral.one + i.to_s'
+      						  elsif mod.name =~ /phone/
       						    vl = 'Imposter::Phone.number("###-###-####")'
       						  elsif mod.name =~ /url/
       						    vl = 'Imposter.urlify()'
       						  elsif mod.name =~ /email/
       						    vl = 'Imposter.email_address()'
     						    else
-        							case (1 + rand(3))
-        								when 1					
-        									vl = 'Imposter::Noun.multiple'
-        								when 2
-        									vl = 'Imposter::Animal.one'
-        								when 3 
-        									vl = 'Imposter::Vegetable.multiple'
-        								when 4 
-        									vl = 'Imposter::Mineral.one'
-        							end
+    						      vl = generic_string()
       							end
     							end
     						when 'text' then 
@@ -121,6 +118,18 @@ module Imposter
     			puts " ** " + mn + " --skipped"	
     		end
     	end
+    	
+    	def generic_string
+				%w{
+				    Imposter::Noun
+  				  Imposter::Animal
+  				  Imposter::Vegetable
+  				  Imposter::Mineral
+  				}.rand + %w{
+  				  .one
+  				  .multiple
+  				}.rand
+  	  end
 
     	def banner
     		"Usage: #{$0} #{spec.name} [options]"
