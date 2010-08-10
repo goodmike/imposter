@@ -93,8 +93,12 @@ module Imposter
     ('http://www.' + Faker::Internet.domain_name).to_s.downcase
   end
   
-  def self.email_address
-    Faker::Internet.email()
+  def self.email_address(counter=false)
+    if counter
+      Faker::Internet.email("#{Imposter::Mineral.one} #{counter}")
+    else
+      Faker::Internet.email()
+    end
   end
 
 	def self.numerify(number_string)
