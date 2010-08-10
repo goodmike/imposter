@@ -61,15 +61,16 @@ module Imposter
       def genmodel(model_name)
     		mn = Pathname.new(model_name).basename.to_s.chomp(File.extname(model_name))
     		require model_name
-    		return false unless eval(mn.camelcase).is_a? Class
+    		klass = mn.camelcase.constantize
+    		return false unless klass.is_a? Class
 
-    		yaml_file = Rails.root.join('test', 'imposter').to_s + "/%03d" % eval(mn.camelcase).reflections.count + "-" + mn  + ".yml"
+    		yaml_file = Rails.root.join('test', 'imposter').to_s + "/%03d" % klass.reflections.count + "-" + mn  + ".yml"
     		if (not File.exists? yaml_file) || options[:collision] == :force
     		  puts " ** YAML file is #{yaml_file}"
     			mh = Hash.new
     			ma = Hash.new
     			mf = Hash.new
-    			eval(mn.camelcase).columns.each do |mod|
+    			klass.columns.each do |mod|
     				if mod.name.include? "_id" then
     					mh = { mod.name => foreign_key_id(mod.name) }
     					ma.merge!(mh)
