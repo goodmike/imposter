@@ -1,6 +1,7 @@
 require 'faker'
 require 'pathname'
 require 'active_support'
+require 'erubis'
 
 require 'imposter/noun'
 require 'imposter/verb'
@@ -32,7 +33,9 @@ module Imposter
 			(1..cnt).each do |i|
 				vl.each do |v|
 					begin 
-						l << eval(v)
+            # l << eval(v)
+            l << Erubis::Eruby.new(v).evaluate(:i => i.to_s)
+            # l << Proc.new {v}.call
 					rescue
 						puts "Imposter.gencsv: Error evaluating #{v.to_s} in #{filename}"
 						puts $!.inspect
