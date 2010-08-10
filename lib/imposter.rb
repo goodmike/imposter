@@ -25,25 +25,21 @@ end
 module Imposter
 	def self.gencsv(filename,cnt,fields,values)
 		vl = values	
-		l = Array.new
 		m = Array.new(cnt,0)
 		CSV.open(filename,"w") do |csv|
 			csv << fields
 			begin
 			(1..cnt).each do |i|
-				vl.each do |v|
-					begin 
-            # l << eval(v)
-            l << Erubis::Eruby.new(v).evaluate(:i => i.to_s)
-            # l << Proc.new {v}.call
-					rescue
-						puts "Imposter.gencsv: Error evaluating #{v.to_s} in #{filename}"
-						puts $!.inspect
-					end
+				row = vl.collect do |v|
+				  begin 
+            Erubis::Eruby.new(v).evaluate(:i => i.to_s)
+				  rescue
+					  puts "Imposter.gencsv: Error evaluating #{v.to_s} in #{filename}"
+					  puts $!.inspect
+				  end
 				end
-				m[i,0] = l
-				csv << l
-				l.clear
+				m[i,0] = row
+				csv << row
 			end
 			rescue
 				puts "Some format/data error in  " + filename
@@ -70,7 +66,7 @@ module Imposter
 		imp_fields = imp_yaml[mn]["fields"].keys
 		imp_qty = imp_yaml[mn]["quantity"]
 		rl = gencsv("test/fixtures/" + mn.pluralize + ".csv",imp_qty,imp_fields, imp_values) 
-		eval("@" + mn.pluralize + "= rl")
+    # eval("@" + mn.pluralize + "= rl") -- What does this do?
 		yml_fixture_filename = "test/fixtures/#{mn.pluralize}.yml"
 		if File.exists?(yml_fixture_filename)
 		  puts " ** Deleting YAML fixture file #{yml_fixture_filename}"
