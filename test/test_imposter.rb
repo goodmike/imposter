@@ -15,18 +15,6 @@ class TestImposter < Test::Unit::TestCase
     end
   end
   
-  context "providing unique values" do
-    
-    should "take a counter and prepend it to the returned value" do
-      assert_match(%r{^1001}, Imposter.unique(1001))
-    end
-    
-    should "take a counter and column name and prepend them to the returned value" do
-      assert_match(%r{^username1001}, Imposter.unique(1001, "username"))
-    end
-    
-  end
-  
   
   
   should "produce a legal URL on request" do
