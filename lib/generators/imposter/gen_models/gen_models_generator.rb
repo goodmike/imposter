@@ -36,8 +36,10 @@ module Imposter
         model_name = model_name.camelcase
         if @models_config["quantities"] && @models_config["quantities"][model_name]
           @models_config["quantities"][model_name]
-        else
+        elsif @models_config["default_quantity"]
           @models_config["default_quantity"]
+        else
+          10
         end
       end
       
@@ -72,20 +74,19 @@ module Imposter
     			mf = Hash.new
     			klass.columns.each do |mod|
     				if mod.name.include? "_id" then
-    					mh = { mod.name => foreign_key_id(mod.name) }
-    					ma.merge!(mh)
+    					vl = foreign_key_id(mod.name)
     				else
     					case mod.type.to_s.downcase
     						when 'string'
     						  unless vl = limited_choices_for(mod.name)
     						    if unique?(mod.name)
-    						      vl = '"' + mod.name + '" + Imposter::Mineral.one + i.to_s'
+    						      vl = '@column_name + Imposter::Mineral.one + @i'
       						  elsif mod.name =~ /phone/
       						    vl = 'Imposter::Phone.number("###-###-####")'
       						  elsif mod.name =~ /url/
       						    vl = 'Imposter.urlify()'
       						  elsif mod.name =~ /email/
-      						    vl = 'Imposter.email_address()'
+      						    vl = 'Imposter.email_address(@i)'
     						    else
     						      vl = generic_string()
       							end
@@ -93,7 +94,7 @@ module Imposter
     						when 'text' then 
     							vl = 'Faker::Lorem.sentence(3)'
     						when 'integer' then
-    							vl = 'i.to_s'
+    							vl = '@i'
     						when 'datetime' 
     							vl = 'Date.today.to_s'
     						when 'date'
@@ -103,10 +104,10 @@ module Imposter
     						else
     							puts " ** unable to imposter " + mod.type.to_s.downcase
     					end
-    					if not mod.name.include? "_at" and :include_special	
-    						mh = {mod.name => vl}
-    						ma.merge!(mh)
-    					end
+  					end
+  					if not mod.name.include? "_at" and :include_special	
+  						mh = {mod.name => "<%= #{vl} %>"}
+  						ma.merge!(mh)
     				end
     			end
     			mf.merge!(mn => {"fields" => ma})

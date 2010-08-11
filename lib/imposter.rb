@@ -23,18 +23,18 @@ else
 end
 
 module Imposter
-	def self.gencsv(filename,cnt,fields,values)
-		vl = values	
-		m = Array.new(cnt,0)
+	def self.gencsv(filename,cnt,fields)
+		m = Array.new(cnt,0) # <-- What does this do?
 		CSV.open(filename,"w") do |csv|
-			csv << fields
+			csv << fields.keys
 			begin
 			(1..cnt).each do |i|
-				row = vl.collect do |v|
+				row = fields.collect do |field|
+				  col_name, erb_string = field
 				  begin 
-            Erubis::Eruby.new(v).evaluate(:i => i.to_s)
+            Erubis::Eruby.new(erb_string).evaluate(:i => i.to_s, :column_name => col_name)
 				  rescue
-					  puts "Imposter.gencsv: Error evaluating #{v.to_s} in #{filename}"
+					  puts "Imposter.gencsv: Error evaluating #{col_name} => #{erb_string.to_s} in #{filename}"
 					  puts $!.inspect
 				  end
 				end
@@ -62,12 +62,12 @@ module Imposter
 	def self.parseyaml(yamlfilename)
 		imp_yaml = YAML.load(File.read(yamlfilename))
 		mn = imp_yaml.first[0]
-		imp_values = imp_yaml[mn]["fields"].values
-		imp_fields = imp_yaml[mn]["fields"].keys
 		imp_qty = imp_yaml[mn]["quantity"]
-		rl = gencsv("test/fixtures/" + mn.pluralize + ".csv",imp_qty,imp_fields, imp_values) 
-    # eval("@" + mn.pluralize + "= rl") -- What does this do?
-		yml_fixture_filename = "test/fixtures/#{mn.pluralize}.yml"
+		rl = gencsv("test/fixtures/" + mn.pluralize + ".csv",
+		            imp_yaml[mn]["quantity"],
+		            imp_yaml[mn]["fields"]) 
+    # eval("@" + mn.pluralize + "= rl") # <-- What does this do?
+		yml_fixture_filename = Rails.root.join("test","fixtures","#{mn.pluralize}.yml")
 		if File.exists?(yml_fixture_filename)
 		  puts " ** Deleting YAML fixture file #{yml_fixture_filename}"
 		  File.delete(yml_fixture_filename)
