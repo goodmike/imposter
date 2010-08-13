@@ -16,7 +16,7 @@ module Imposter
     		copy_file "databases.rake", "lib/tasks/databases.rake"
     	end
     	
-    	def copy_rake_file
+    	def copy_models_file
     	  copy_file "models.yml", "test/imposter/config/models.yml"
   	  end
   	  
