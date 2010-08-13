@@ -80,7 +80,7 @@ module Imposter
     						when 'string'
     						  unless vl = limited_choices_for(mod.name)
     						    if unique?(mod.name)
-    						      vl = '@column_name + Imposter::Mineral.one + @i'
+    						      vl = '@column_name + Imposter::Mineral.one() + @i'
       						  elsif mod.name =~ /phone/
       						    vl = 'Imposter::Phone.number("###-###-####")'
       						  elsif mod.name =~ /url/
@@ -96,11 +96,11 @@ module Imposter
     						when 'integer' then
     							vl = '@i'
     						when 'datetime' 
-    							vl = 'Date.today.to_s'
+    							vl = 'Date.today.to_s()'
     						when 'date'
-    							vl = 'Date.today.to_s'
+    							vl = 'Date.today.to_s()'
     						when 'decimal' then
-    							vl = 'rand(50).to_s + "." + (1000+rand(2000)).to_s'
+    							vl = 'rand(50).to_s() + "." + (1000+rand(2000)).to_s()'
     						else
     							puts " ** unable to imposter " + mod.type.to_s.downcase
     					end
@@ -128,8 +128,8 @@ module Imposter
   				  Imposter::Vegetable
   				  Imposter::Mineral
   				}.rand + %w{
-  				  .one
-  				  .multiple
+  				  .one()
+  				  .multiple()
   				}.rand
   	  end
 
