@@ -48,13 +48,17 @@ module Imposter
 		return m
 	end
 
+  def self.get_csv_file(csv_file)
+    CSV.open(csv_file,'r').to_a  rescue nil
+  end
+
 	def self.getfixtures
 		fixtures_dir = Dir.glob("test/fixtures/*.csv")
 		#Loading existing CSV structures
 		if not fixtures_dir.empty? then
 			fixtures_dir.each do |fixture_csv|
 				fn = Pathname.new(fixture_csv).basename.to_s.chomp(File.extname(fixture_csv))
-				eval("@" + fn + "= CSV.open(fixture_csv,'r').to_a  rescue nil") 
+				instance_variable_set("@#{fn}".to_sym, get_csv_file(fixture_csv))
 			end	
 		end
 	end
@@ -65,8 +69,8 @@ module Imposter
 		imp_qty = imp_yaml[mn]["quantity"]
 		rl = gencsv("test/fixtures/" + mn.pluralize + ".csv",
 		            imp_yaml[mn]["quantity"],
-		            imp_yaml[mn]["fields"]) 
-    # eval("@" + mn.pluralize + "= rl") # <-- What does this do?
+		            imp_yaml[mn]["fields"])
+		instance_variable_set("@#{mn.pluralize}".to_sym, rl) # <-- What does this do?
 		yml_fixture_filename = Rails.root.join("test","fixtures","#{mn.pluralize}.yml")
 		if File.exists?(yml_fixture_filename)
 		  puts " ** Deleting YAML fixture file #{yml_fixture_filename}"
