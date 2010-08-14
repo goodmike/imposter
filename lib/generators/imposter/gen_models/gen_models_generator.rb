@@ -49,7 +49,11 @@ module Imposter
       
       def foreign_key_id(fkey_id)
         model_name = fkey_id.sub("_id","")
-        "(rand(#{quantity_for(model_name)}) + 1).to_s"
+        if @models_config["distribution"] && @models_config["distribution"] == "log"
+          "(rand(rand(#{quantity_for(model_name)})+1)+1).to_s"
+        else
+          "(rand(#{quantity_for(model_name)}) + 1).to_s"
+        end
       end
       
       def limited_choices_for(col_name)
@@ -63,6 +67,26 @@ module Imposter
       def skip?(model_name)
         @models_config["skip"] && @models_config["skip"].include?(model_name)
       end
+      
+      def distributed_integer
+  	    if @models_config["distribution"] && @models_config["distribution"] == "log"
+  	      "rand(@i.to_i).to_s"
+	      else
+	        "@i"
+        end
+	    end
+    	
+    	def generic_string
+				%w{
+				    Imposter::Noun
+  				  Imposter::Animal
+  				  Imposter::Vegetable
+  				  Imposter::Mineral
+  				}.rand + %w{
+  				  .one()
+  				  .multiple()
+  				}.rand
+  	  end
       
       def genmodel(model_name)
     		mn = Pathname.new(model_name).basename.to_s.chomp(File.extname(model_name))
@@ -80,6 +104,8 @@ module Imposter
     			klass.columns.each do |mod|
     				if mod.name.include? "_id" then
     					vl = foreign_key_id(mod.name)
+    				elsif mod.name == "id"
+    				  vl = "@i"
     				else
     					case mod.type.to_s.downcase
     						when 'string'
@@ -99,7 +125,7 @@ module Imposter
     						when 'text' then 
     							vl = 'Faker::Lorem.sentence(3)'
     						when 'integer' then
-    							vl = '@i'
+    							vl = distributed_integer
     						when 'datetime' 
     							vl = 'Date.today.to_s()'
     						when 'date'
@@ -124,18 +150,6 @@ module Imposter
     			puts " ** " + mn + " --skipped"	
     		end
     	end
-    	
-    	def generic_string
-				%w{
-				    Imposter::Noun
-  				  Imposter::Animal
-  				  Imposter::Vegetable
-  				  Imposter::Mineral
-  				}.rand + %w{
-  				  .one()
-  				  .multiple()
-  				}.rand
-  	  end
 
     	def banner
     		"Usage: #{$0} #{spec.name} [options]"
