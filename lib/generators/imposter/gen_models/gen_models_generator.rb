@@ -60,10 +60,16 @@ module Imposter
         end
       end
       
+      def skip?(model_name)
+        @models_config["skip"] && @models_config["skip"].include?(model_name)
+      end
+      
       def genmodel(model_name)
     		mn = Pathname.new(model_name).basename.to_s.chomp(File.extname(model_name))
+    		classname = mn.camelcase
+    		return false if skip?(classname)
     		require model_name
-    		klass = mn.camelcase.constantize
+    		klass = classname.constantize
     		return false unless klass.is_a? Class
 
     		yaml_file = Rails.root.join('test', 'imposter').to_s + "/%03d" % klass.reflections.count + "-" + mn  + ".yml"
