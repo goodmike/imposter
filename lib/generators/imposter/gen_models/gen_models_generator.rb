@@ -74,7 +74,6 @@ module Imposter
 
     		yaml_file = Rails.root.join('test', 'imposter').to_s + "/%03d" % klass.reflections.count + "-" + mn  + ".yml"
     		if (not File.exists? yaml_file) || options[:collision] == :force
-    		  puts " ** YAML file is #{yaml_file}"
     			mh = Hash.new
     			ma = Hash.new
     			mf = Hash.new
@@ -117,7 +116,6 @@ module Imposter
     				end
     			end
     			mf.merge!(mn => {"fields" => ma})
-    			puts " !! quantity_for(#{mn}): #{quantity_for(mn)}"
     			mf[mn].merge!({"quantity" => quantity_for(mn)})
     			File.open(yaml_file,"w") do |out|
     				YAML.dump(mf,out)  
